@@ -1,4 +1,6 @@
 const express = require('express');
+const fs = require('fs');
+const util = require('util');
 const MoviesService = require('../services/movies');
 const {
   movieIdSchema,
@@ -17,21 +19,23 @@ const cacheResponse = require('../utils/cacheResponse');
 
 function moviesApi(app) {
   const router = express.Router();
-  app.use('/api/movies', router);
+  app.use('/api/initiatives', router);
 
   const moviesService = new MoviesService();
 
   router.get('/', async function (req, res, next) {
     cacheResponse(res, FIVE_MINUTES_IN_SECONDS);
 
-    const { tags } = req.query;
+    //const { tags } = req.query;
 
     try {
-      const movies = await moviesService.getMovies({ tags });
-
+      //const movies = await moviesService.getMovies({ tags });
+      const readdir = util.promisify(fs.readdir);
+      const getDirectories = await readdir('../');
+      //console.log(getDirectories);
       res.status(200).json({
-        data: movies,
-        message: 'movies listed',
+        data: getDirectories,
+        message: 'directories listed',
       });
     } catch (err) {
       next(err);

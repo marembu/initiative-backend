@@ -1,7 +1,8 @@
 const express = require('express');
 const { config } = require('./config/index');
 const app = express();
-const moviesApi = require('./routes/movies');
+//const moviesApi = require('./routes/movies');
+const initiativesApi = require('./routes/initiatives');
 const {
   logErrors,
   wrapError,
@@ -13,7 +14,7 @@ const debug = require('debug')('app:server');
 app.use(express.json());
 
 //routes
-moviesApi(app);
+initiativesApi(app);
 
 //catch error 404
 app.use(notFoundHandler);
